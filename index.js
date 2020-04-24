@@ -16,7 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/api/users', require('./routes/users'));
+app.use('/api/projects', require('./routes/projects'));
 
 app.listen(app.get('port'), () => {
-    console.log('Server running at port: ' + app.get('port'));
+  console.log('Server running at port: ' + app.get('port'));
 });
