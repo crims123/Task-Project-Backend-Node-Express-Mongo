@@ -1,9 +1,16 @@
 const { Router } = require('express');
-const router = Router();
+const { check } = require('express-validator');
 const { addProject } = require('../controllers/project.controller');
+const verifyAuth = require('../middleware/verifyAuth');
+
+const router = Router();
 
 router
   .route('/')
-  .post(addProject);
+  .post(
+    verifyAuth,
+    [check('name', 'The name is mandatory').not().isEmpty()],
+    addProject
+  );
 
 module.exports = router;
