@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const userCtrl = {};
-const jwtFirma = 'mypass';
 const User = require('../models/User');
 
 userCtrl.addUser = async (req, res) => {
@@ -37,11 +36,25 @@ userCtrl.addUser = async (req, res) => {
 
     await user.save();
 
-    res.json({
-      success: true,
-      message: 'User created',
-      data: { user },
-    });
+    // Create Token
+    const payload = { user: { id: user.id } };
+
+    jwt.sign(
+      payload,
+      'SECRET_PASS_QAZWSX',
+      {
+        expiresIn: 3600,
+      },
+      (error, token) => {
+        if (error) throw error;
+
+        res.json({
+          success: true,
+          message: 'User created',
+          data: { token },
+        });
+      }
+    );
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -51,25 +64,7 @@ userCtrl.addUser = async (req, res) => {
 };
 
 userCtrl.login = async (req, res) => {
-  const { Email, Contrasena } = req.body;
-
-  const filtro = { Email, Contrasena };
-  let usuario = await Usuario.findOne(filtro);
-
-  if (usuario) {
-    usuario.Contrasena = '';
-    const token = jwt.sign(usuario.toObject(), jwtFirma);
-    res.json({
-      sucess: 'true',
-      message: 'Usuario logueado',
-      token,
-    });
-  } else {
-    res.status(400).json({
-      sucess: 'false',
-      message: 'Usuario no encontrado',
-    });
-  }
+  
 };
 
 module.exports = userCtrl;
