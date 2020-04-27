@@ -14,9 +14,9 @@ projectCtrl.addProject = async (req, res) => {
   try {
     const { name } = req.body;
 
-    const decryptToken = jwt.verify(req.headers.authorization, jwtSign);
+    const { user } = jwt.verify(req.headers.authorization, jwtSign);
 
-    const project = new Project({ name, author: decryptToken.user.id });
+    const project = new Project({ name, author: user.id });
     await project.save();
 
     res.json({
@@ -34,10 +34,8 @@ projectCtrl.addProject = async (req, res) => {
 
 projectCtrl.getProjects = async (req, res) => {
   try {
-    const decryptToken = jwt.verify(req.headers.authorization, jwtSign);
-    const userId = decryptToken.user.id;
-
-    const projects = await Project.find({ author: userId });
+    const { user } = jwt.verify(req.headers.authorization, jwtSign);
+    const projects = await Project.find({ author: user.id });
 
     res.json({
       success: true,
