@@ -32,4 +32,24 @@ projectCtrl.addProject = async (req, res) => {
   }
 };
 
+projectCtrl.getProjects = async (req, res) => {
+  try {
+    const decryptToken = jwt.verify(req.headers.authorization, jwtSign);
+    const userId = decryptToken.user.id;
+
+    const projects = await Project.find({ author: userId });
+
+    res.json({
+      success: true,
+      message: 'Projects List',
+      data: { projects },
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error,
+    });
+  }
+};
+
 module.exports = projectCtrl;
