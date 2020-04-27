@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const {
   addProject,
   getProjects,
+  deleteProject,
 } = require('../controllers/project.controller');
 const verifyAuth = require('../middleware/verifyAuth');
 
@@ -15,6 +16,10 @@ router
     [check('name', 'The name is mandatory').not().isEmpty()],
     addProject
   )
-  .get(verifyAuth, getProjects);
+  .get(verifyAuth, getProjects)
+
+router
+  .route('/:id')
+  .delete(deleteProject);
 
 module.exports = router;
