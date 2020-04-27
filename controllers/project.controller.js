@@ -63,7 +63,6 @@ projectCtrl.deleteProject = async (req, res) => {
     }
 
     if (project.author !== user.id) {
-      console.log('ENTRO IF');
       res.status(400).json({
         success: false,
         message: 'You do not have permissions for this request',
