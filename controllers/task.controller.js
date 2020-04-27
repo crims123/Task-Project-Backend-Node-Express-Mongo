@@ -116,4 +116,31 @@ taskCtrl.updateTask = async (req, res) => {
   }
 };
 
+taskCtrl.deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const task = await Task.findById(id);
+
+    if (!task) {
+      res.status(400).json({
+        success: false,
+        message: 'Task does not exist',
+      });
+    }
+
+    await Task.findOneAndRemove({ _id: id });
+
+    res.json({
+      success: true,
+      message: 'Task Deleted',
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error,
+    });
+  }
+};
+
 module.exports = taskCtrl;
