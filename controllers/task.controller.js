@@ -58,4 +58,31 @@ taskCtrl.addTask = async (req, res) => {
   }
 };
 
+taskCtrl.getTaskByProject = async (req, res) => {
+  try {
+    const { projectId } = req.body;
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      res.status(400).json({
+        success: false,
+        message: 'Invalid Project Id',
+      });
+    }
+
+    const tasks = await Task.find({ projectId });
+
+    res.json({
+      success: true,
+      message: 'Tasks List',
+      data: { tasks },
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error,
+    });
+  }
+};
+
 module.exports = taskCtrl;
