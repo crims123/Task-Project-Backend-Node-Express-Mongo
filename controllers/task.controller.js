@@ -85,4 +85,35 @@ taskCtrl.getTaskByProject = async (req, res) => {
   }
 };
 
+taskCtrl.updateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, state } = req.body;
+
+    const task = await Task.findById(id);
+
+    if (!task) {
+      res.status(400).json({
+        success: false,
+        message: 'Task does not exist',
+      });
+    }
+
+    task.name = name;
+    task.state = state;
+
+    await Task.findOneAndUpdate({ _id: id }, task);
+
+    res.json({
+      success: true,
+      message: 'Task Updated',
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error,
+    });
+  }
+};
+
 module.exports = taskCtrl;
