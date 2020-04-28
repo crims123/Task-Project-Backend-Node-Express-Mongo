@@ -5,6 +5,7 @@ const {
   updateTask,
   deleteTask,
 } = require('../controllers/task.controller');
+
 const router = Router();
 
 router.route('/').post(addTask).get(getTaskByProject);

@@ -1,33 +1,14 @@
 const { Router } = require('express');
-const router = Router();
 const { addUser, login } = require('../controllers/user.controller');
-const { check } = require('express-validator');
+const {
+  addUserValidator,
+  loginValidator,
+} = require('../middleware/validators');
 
-router
-  .route('/')
-  .post(
-    [
-      check('name', 'The name is mandatory').not().isEmpty(),
-      check('email', 'Add a valid email').isEmail(),
-      check(
-        'password',
-        'The password must be a minimum of 6 characters'
-      ).isLength({ min: 6 }),
-    ],
-    addUser
-  );
+const router = Router();
 
-router
-  .route('/login')
-  .post(
-    [
-      check('email', 'Add a valid email').isEmail(),
-      check(
-        'password',
-        'The password must be a minimum of 6 characters'
-      ).isLength({ min: 6 }),
-    ],
-    login
-  );
+router.route('/').post(addUserValidator, addUser);
+
+router.route('/login').post(loginValidator, login);
 
 module.exports = router;

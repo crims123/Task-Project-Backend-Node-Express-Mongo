@@ -1,25 +1,19 @@
 const { Router } = require('express');
-const { check } = require('express-validator');
 const {
   addProject,
   getProjects,
   deleteProject,
 } = require('../controllers/project.controller');
 const verifyAuth = require('../middleware/verifyAuth');
+const { addProjectValidator } = require('../middleware/validators');
 
 const router = Router();
 
 router
   .route('/')
-  .post(
-    verifyAuth,
-    [check('name', 'The name is mandatory').not().isEmpty()],
-    addProject
-  )
-  .get(verifyAuth, getProjects)
+  .post(verifyAuth, addProjectValidator, addProject)
+  .get(verifyAuth, getProjects);
 
-router
-  .route('/:id')
-  .delete(deleteProject);
+router.route('/:id').delete(deleteProject);
 
 module.exports = router;

@@ -64,56 +64,56 @@ userCtrl.addUser = async (req, res) => {
 };
 
 userCtrl.login = async (req, res) => {
-    const errors = validationResult(req);
-  
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-  
-    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
-  
-      if (!user) {
-        return res.status(400).json({
-          success: false,
-          message: 'Incorrect Email',
-        });
-      }
-  
-      const checkPassword = await bcryptjs.compare(password, user.password);
-  
-      if (!checkPassword) {
-        return res.status(400).json({
-          success: false,
-          message: 'Incorrect password',
-        });
-      }
-  
-      const payload = { user: { id: user.id } };
-  
-      jwt.sign(
-        payload,
-        'SECRET_PASS_QAZWSX',
-        {
-          expiresIn: 3600,
-        },
-        (error, token) => {
-          if (error) throw error;
-  
-          res.json({
-            success: true,
-            message: 'User Authenticated',
-            data: { token },
-          });
-        }
-      );
-    } catch (error) {
-      res.status(400).json({
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
         success: false,
-        message: error,
+        message: 'Incorrect Email',
       });
     }
-  };
+
+    const checkPassword = await bcryptjs.compare(password, user.password);
+
+    if (!checkPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Incorrect password',
+      });
+    }
+
+    const payload = { user: { id: user.id } };
+
+    jwt.sign(
+      payload,
+      'SECRET_PASS_QAZWSX',
+      {
+        expiresIn: 3600,
+      },
+      (error, token) => {
+        if (error) throw error;
+
+        res.json({
+          success: true,
+          message: 'User Authenticated',
+          data: { token },
+        });
+      }
+    );
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error,
+    });
+  }
+};
 
 module.exports = userCtrl;
