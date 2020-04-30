@@ -1,17 +1,10 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const jwtSign = 'SECRET_PASS_QAZWSX';
-const { validationResult } = require('express-validator');
 const userCtrl = {};
 const User = require('../models/User');
 
 userCtrl.addUser = async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
     const { name, email, password, register } = req.body;
 
@@ -65,12 +58,6 @@ userCtrl.addUser = async (req, res) => {
 };
 
 userCtrl.login = async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -119,7 +106,9 @@ userCtrl.login = async (req, res) => {
 
 userCtrl.getUser = async (req, res) => {
   try {
-    const { user: { id} } = jwt.verify(req.headers.authorization, jwtSign);
+    const {
+      user: { id },
+    } = jwt.verify(req.headers.authorization, jwtSign);
     const user = await User.findById(id).select('-password');
 
     res.json({
