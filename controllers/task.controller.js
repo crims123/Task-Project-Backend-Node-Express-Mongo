@@ -60,8 +60,9 @@ taskCtrl.addTask = async (req, res) => {
 
 taskCtrl.getTaskByProject = async (req, res) => {
   try {
-    const { projectId } = req.body;
-    const project = await Project.findById(projectId);
+    const { id } = req.params;
+  
+    const project = await Project.findById(id);
 
     if (!project) {
       res.status(400).json({
@@ -70,7 +71,7 @@ taskCtrl.getTaskByProject = async (req, res) => {
       });
     }
 
-    const tasks = await Task.find({ projectId });
+    const tasks = await Task.find({ projectId: id });
 
     res.json({
       success: true,

@@ -8,8 +8,8 @@ const {
 
 const router = Router();
 
-router.route('/').post(addTask).get(getTaskByProject);
+router.route('/').post(addTask);
 
-router.route('/:id').put(updateTask).delete(deleteTask);
+router.route('/:id').get(getTaskByProject).put(updateTask).delete(deleteTask);
 
 module.exports = router;
