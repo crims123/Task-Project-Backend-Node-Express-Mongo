@@ -24,15 +24,6 @@ taskCtrl.addTask = async (req, res) => {
       });
     }
 
-    const uniqueName = await Task.find({ name });
-
-    if (uniqueName.length !== 0) {
-      res.status(400).json({
-        success: false,
-        message: 'The current task name exists',
-      });
-    }
-
     const { user } = jwt.verify(req.headers.authorization, jwtSign);
 
     if (project.author !== user.id) {
