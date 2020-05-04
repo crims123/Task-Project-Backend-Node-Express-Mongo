@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
-const jwtSign = 'SECRET_PASS_QAZWSX';
 const userCtrl = {};
 const User = require('../models/User');
 
@@ -35,7 +34,7 @@ userCtrl.addUser = async (req, res) => {
 
     jwt.sign(
       payload,
-      'SECRET_PASS_QAZWSX',
+      process.env.SECRET',
       {
         expiresIn: 3600,
       },
@@ -82,7 +81,7 @@ userCtrl.login = async (req, res) => {
 
     jwt.sign(
       payload,
-      'SECRET_PASS_QAZWSX',
+      process.env.SECRET',
       {
         expiresIn: 3600,
       },

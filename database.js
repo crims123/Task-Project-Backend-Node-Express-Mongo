@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config({ path: 'variables.env' });
 
-const URI =
-  'mongodb+srv://acamica:acamica@cluster0-gzgnl.azure.mongodb.net/tasks?retryWrites=true&w=majority';
-
-mongoose.connect(URI, {
+mongoose.connect(process.env.DB_MONGO, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

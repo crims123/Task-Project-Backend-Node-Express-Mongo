@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const jwtSign = 'SECRET_PASS_QAZWSX';
 const taskCtrl = {};
 const Task = require('../models/Task');
 const Project = require('../models/Project');
