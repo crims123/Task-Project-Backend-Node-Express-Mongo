@@ -17,6 +17,10 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
+app.get('/', (req, res) => {
+  res.json('Conected');
+});
+
 app.listen(port, '0.0.0.0', () => {
   console.log('Server running at port: ' + port);
 });
