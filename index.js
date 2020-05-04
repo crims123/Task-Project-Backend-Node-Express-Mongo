@@ -5,8 +5,7 @@ const cors = require('cors');
 
 const app = express();
 
-// Setting
-app.set('port', 4000);
+const port = process.env.PORT || 4000;
 
 // Middelwares
 app.use(express.urlencoded({ extended: false }));
@@ -21,6 +20,6 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
-app.listen(app.get('port'), '0.0.0.0', () => {
+app.listen(port, '0.0.0.0', () => {
   console.log('Server running at port: ' + app.get('port'));
 });
