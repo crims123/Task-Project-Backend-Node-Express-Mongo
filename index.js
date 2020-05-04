@@ -1,6 +1,5 @@
 require('./database');
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
 
 const app = express();
@@ -17,10 +16,10 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   res.json('Conected');
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log('Server running at port: ' + port);
+app.listen(process.env.PORT || 5000, function () {
+  console.log('Server running');
 });
