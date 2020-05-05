@@ -34,7 +34,7 @@ userCtrl.addUser = async (req, res) => {
 
     jwt.sign(
       payload,
-      process.env.SECRET',
+      process.env.SECRET,
       {
         expiresIn: 3600,
       },
@@ -81,7 +81,7 @@ userCtrl.login = async (req, res) => {
 
     jwt.sign(
       payload,
-      process.env.SECRET',
+      process.env.SECRET,
       {
         expiresIn: 3600,
       },
@@ -107,7 +107,7 @@ userCtrl.getUser = async (req, res) => {
   try {
     const {
       user: { id },
-    } = jwt.verify(req.headers.authorization, jwtSign);
+    } = jwt.verify(req.headers.authorization, process.env.SECRET);
     const user = await User.findById(id).select('-password');
 
     res.json({

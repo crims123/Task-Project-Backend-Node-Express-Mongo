@@ -23,7 +23,7 @@ taskCtrl.addTask = async (req, res) => {
       });
     }
 
-    const { user } = jwt.verify(req.headers.authorization, jwtSign);
+    const { user } = jwt.verify(req.headers.authorization, process.env.SECRET);
 
     if (project.author !== user.id) {
       res.status(400).json({
