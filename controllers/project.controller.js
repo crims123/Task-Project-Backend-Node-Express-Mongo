@@ -6,7 +6,7 @@ projectCtrl.addProject = async (req, res) => {
   try {
     const { name } = req.body;
 
-    const { user } = jwt.verify(req.headers.authorization, jwtSign);
+    const { user } = jwt.verify(req.headers.authorization, process.env.SECRET);
 
     const project = new Project({ name, author: user.id });
     await project.save();
@@ -26,7 +26,7 @@ projectCtrl.addProject = async (req, res) => {
 
 projectCtrl.getProjects = async (req, res) => {
   try {
-    const { user } = jwt.verify(req.headers.authorization, jwtSign);
+    const { user } = jwt.verify(req.headers.authorization, process.env.SECRET);
     const projects = await Project.find({ author: user.id });
 
     res.json({
@@ -44,7 +44,7 @@ projectCtrl.getProjects = async (req, res) => {
 
 projectCtrl.deleteProject = async (req, res) => {
   try {
-    const { user } = jwt.verify(req.headers.authorization, jwtSign);
+    const { user } = jwt.verify(req.headers.authorization, process.env.SECRET);
     const project = await Project.findById(req.params.id);
 
     if (!project) {
